@@ -8,6 +8,10 @@
 
 <body>
   <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect();
+    socket.emit('emit_from_client', 'osushi');
+  </script>
 </body>
 
 </html>
