@@ -10,7 +10,7 @@ function handler(req, res) {
   })
 }
 
-app.listen(8000);
+app.listen(8008);
 
 io.sockets.on('connection', function(socket) {
   socket.on('emit_from_client', function(msg) {
