@@ -7,10 +7,19 @@
 </head>
 
 <body>
+  <form id="sample">
+    <input type="text" id="message"> <input type="submit" value="submit">
+  </form>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    var socket = io.connect();
-    socket.emit('emit_from_client', 'osushi');
+    $(function() {
+      var socket = io.connect();
+      $('#sample').submit(function() {
+        socket.emit('emit_from_client', $('#message').val());
+      });
+    });
   </script>
 </body>
 
