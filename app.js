@@ -1,19 +1,20 @@
-var app = require('http').createServer(handler),
-    io = require('socket.io').listen(app),
-    fs = require('fs');
+var http = require('http');
+var clientHtml = require('fs').readFileSync('index.html');
 
-function handler(req, res) {
-  fs.readFile(__dirname + '/index.html', function(err, data) {
-    res.writeHead(200);
-    res.write(data);
-    res.end();
-  })
-}
+var httpServer = http.createServer(function(req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end(clientHtml);
+});
 
-app.listen(8008);
+httpServer.listen(8008);
 
-io.sockets.on('connection', function(socket) {
-  socket.on('emit_from_client', function(msg) {
-    console.log(msg);
+var WebSocketServer = require('websocket').server;
+var wsServer = new WebSocketServer({ httpServer: httpServer });
+
+wsServer.on('request', function (req) {
+  var connection = req.accept(null, req.origin);
+  connection.on('message', function(msg) {
+    console.log(msg.utf8Data);
   });
 });
+
